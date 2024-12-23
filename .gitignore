@@ -1,5 +1,5 @@
 venv/
-test.py/
-test.ipynb/
-*.csv/
+test.py
+test.ipynb
+*.csv
 __pycache__/
