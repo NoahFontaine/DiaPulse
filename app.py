@@ -1,9 +1,9 @@
 import streamlit as st
-from CGM_processor import CGMDataProcessor
+from Glucose_processor import GlucoseDataProcessor
 
 st.set_page_config(layout="wide")
 
-CGM_data = CGMDataProcessor("CGM_data.csv", min_range=68, max_range=180, target=100)
+Glucose_data = GlucoseDataProcessor("CGM_data.csv", "Bolus_data.csv", "Carb_data.csv", min_range=68, max_range=180, target=100, tp=80, td=280, dp=45, dd=180)
 
-st.plotly_chart(CGM_data.plot_data(), use_container_width=True)
+st.plotly_chart(Glucose_data.plot_data(), use_container_width=True)
 
