@@ -298,3 +298,14 @@ class GlucoseDataProcessor:
 
         return df
 
+    def create_filtered_DataFrame(self) -> pd.DataFrame:
+        CGM_data = self.CGM_data["Value"].iloc[::-1]
+        filtered_CGM_data = self._filter_data(data_name="Value", window=0.06)
+        time_data = self.CGM_data["Device Time"].iloc[::-1]
+        insulin_activity_data = self.insulin_activity_curve()
+        food_activity_data = self.food_activity_curve()
+
+        df = pd.DataFrame({"Time": time_data, "CGM": filtered_CGM_data, "Insulin Activity": insulin_activity_data, "Food Activity": food_activity_data})
+
+        return df
+

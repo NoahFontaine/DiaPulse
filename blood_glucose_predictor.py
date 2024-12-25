@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 import keras
 from keras import layers, callbacks
@@ -15,7 +14,7 @@ class BloodGlucosePredictor:
         self.scaler_y = MinMaxScaler()
         self.model = None  # Placeholder for the LSTM model
 
-    def handle_missing_data(self, df: pd.DataFrame):
+    def _handle_missing_data(self, df: pd.DataFrame):
         """
         Handle missing data by interpolating the gaps.
         """
@@ -27,17 +26,33 @@ class BloodGlucosePredictor:
         Preprocess the dataset: handle missing data, generate targets, and scale features/targets.
         """
         # Handle missing data
-        df = self.handle_missing_data(df)
+        df = self._handle_missing_data(df)
+
+        # Convert 'Time' column to datetime if not already in datetime format
+        if not np.issubdtype(df['Time'].dtype, np.datetime64):
+            df['Time'] = pd.to_datetime(df['Time'])
+
+        # Extract time-based features
+        df['hour'] = df['Time'].dt.hour
+        df['minute'] = df['Time'].dt.minute
+        df['second'] = df['Time'].dt.second
+
+        # Normalize time components (e.g., hour as a fraction of a 24-hour cycle)
+        df['hour_fraction'] = (df['hour'] + df['minute'] / 60 + df['second'] / 3600) / 24.0
+
+        # Add sine and cosine transformations for the 24-hour cycle
+        df['hour_sin'] = np.sin(2 * np.pi * df['hour_fraction'])
+        df['hour_cos'] = np.cos(2 * np.pi * df['hour_fraction'])
 
         # Generate target columns for future predictions
         for h in self.horizons:
-            df[f'BG_t+{h}'] = df['CGM'].shift(-h)
+            df[f'BG_t+{h}'] = df['CGM'].shift(-int(h / 5))
 
         # Drop rows with NaN targets caused by shifting
         df.dropna(inplace=True)
 
         # Separate features and targets
-        X = df[['CGM', 'Insulin', 'Food']].values
+        X = df[['hour_sin', 'hour_cos', 'CGM', 'Insulin Activity', 'Food Activity']].values
         y = df[[f'BG_t+{h}' for h in self.horizons]].values
 
         # Scale features and targets
@@ -45,6 +60,7 @@ class BloodGlucosePredictor:
         y_scaled = self.scaler_y.fit_transform(y)
 
         return X_scaled, y_scaled
+    
 
     def build_model(self, input_shape):
         """
@@ -57,7 +73,8 @@ class BloodGlucosePredictor:
         model.compile(optimizer='adam', loss='mse', metrics=['mae'])
         self.model = model
 
-    def train(self, X: np, y, validation_split=0.2, batch_size=32, epochs=100):
+
+    def train(self, X: np, y, validation_split=0.2, batch_size=32, epochs=200):
         """
         Train the LSTM model.
         """
@@ -104,4 +121,5 @@ class BloodGlucosePredictor:
 
         y_pred_scaled = self.model.predict(X)
         y_pred = self.scaler_y.inverse_transform(y_pred_scaled)
+        # y_pred = y_pred_scaled
         return y_pred
