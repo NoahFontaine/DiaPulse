@@ -6,7 +6,7 @@ View training and results of the models using the training_{#}.ipynb notebooks.
 
 ## Models
 
-### Model A
+### <span style="color:blue">Model A:</span>
 
 Simple Sequential model with 1 LSTM hidden layer.
 
@@ -16,25 +16,27 @@ Features are:
  - Current "Insulin Activity" - pseudo $f(active insulin, insulin characteristics, t)$ to try and model how insulin gets absorbed into the body.
  - Current "Food Activity" - effectively the same type of function as Insulin Activity, but with different parameters to try and model how food gets digested.
 
-#### Architecture:
+#### <span style="color:blue">Architecture:</span>
 
 Input (5) -> LSTM (64) -> Output (24)
 
 
-### Model B
+### <span style="color:blue">Model B:</span>
 
 Added new lagging feature and a second LSTM hidden layer, with 2 dropout layers too.
 
 Extra features are:
  - Time of day 5, 10, 15, 20 mins before (both sine and cosine components).
 
-#### Architecture:
+#### <span style="color:blue">Architecture:</span>
 
 Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization -> Dropout -> Output (24)
 
-#### Residuals:
+### <span style="color:blue">Loss and Residuals:</span>
 
-| Horizon (minutes) | Mean Absolute Error (MAE) | Root Mean Square Error (RMSE) |
+Test Loss: 0.0037, Test MAE: 0.0420
+
+| Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
 | Horizon 5 mins: | Mean=2.69, | Std=6.69
 | Horizon 10 mins: | Mean=2.23, | Std=6.14
@@ -62,17 +64,19 @@ Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization
 | Horizon 120 mins: | Mean=3.54, | Std=32.16
 
 
-### Model C
+### <span style="color:blue">Model C:</span>
 
 Same as Model B but with an attention layer after the first LSTM and Layer instead of Batch Normalization. Have tried adding FFT features without success. Will try to add day of week/weekend features and increase the time lag features to 30mins before.
 
-#### Architecture:
+#### <span style="color:blue">Architecture:</span>
 
 Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
 
-#### Residuals:
+#### <span style="color:blue">Loss and Residuals:</span>
 
-| Horizon (minutes) | Mean Absolute Error (MAE) | Root Mean Square Error (RMSE) |
+Test Loss: 0.0025, Test MAE: 0.0335
+
+| Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
 | Horizon 5 mins: | Mean=0.97, | Std=4.13
 | Horizon 10 mins: | Mean=1.01, | Std=3.79
