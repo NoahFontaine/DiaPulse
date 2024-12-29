@@ -43,7 +43,7 @@ class BloodGlucosePredictorC:
         df['hour_cos'] = np.cos(2 * np.pi * df['hour_fraction'])
 
         # Add lagging features for temporal context
-        for lag in range(1, 4):
+        for lag in range(1, 6):
             df[f'CGM_lag_{lag}'] = df['CGM'].shift(lag)
 
         # Generate target columns for future predictions
@@ -56,6 +56,7 @@ class BloodGlucosePredictorC:
         # Separate features and targets
         feature_cols = ['hour_sin', 'hour_cos', 'CGM', 'Insulin Activity', 'Food Activity'] + \
                        [f'CGM_lag_{lag}' for lag in range(1, 4)]
+
         X = df[feature_cols].values
         y = df[[f'BG_t+{h}' for h in self.horizons]].values
 
@@ -67,16 +68,31 @@ class BloodGlucosePredictorC:
 
     def build_model(self, input_shape):
         """
-        Build the LSTM model.
+        Build the LSTM model with an attention layer.
         """
-        model = keras.Sequential([
-            layers.LSTM(64, activation='relu', return_sequences=True, input_shape=input_shape),
-            layers.Dropout(0.2),
-            layers.LSTM(32, activation='relu'),
-            layers.BatchNormalization(),
-            layers.Dropout(0.2),
-            layers.Dense(len(self.horizons))  # Output for each prediction horizon
-        ])
+        # Input layer
+        input_layer = keras.Input(shape=input_shape)
+
+        # First LSTM layer with return_sequences=True
+        lstm_output = layers.LSTM(64, activation='relu', return_sequences=True)(input_layer)
+
+        # Attention mechanism
+        attention_output = layers.Attention()([lstm_output, lstm_output])
+
+        # Second LSTM layer
+        lstm_output_2 = layers.LSTM(32, activation='relu')(attention_output)
+
+        # Normalization and dropout
+        normalized_output = layers.LayerNormalization()(lstm_output_2)
+        dropout_output = layers.Dropout(0.2)(normalized_output)
+
+        # Dense layer for predictions
+        output_layer = layers.Dense(len(self.horizons))(dropout_output)
+
+        # Define the model
+        model = keras.Model(inputs=input_layer, outputs=output_layer)
+
+        # Compile the model
         model.compile(optimizer='adam', loss='mse', metrics=['mae'])
         self.model = model
 
