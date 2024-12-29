@@ -1,5 +1,7 @@
 # DiaPulse
 
+Deep Learning LSTM models to predict my future BG.
+
 Trying to predict what my Blood Glucose level (BG) will be in 5-120mins - in 5mins intervals - based of CGM and bolus data from my pump.
 
 View training and results of the models using the training_{#}.ipynb notebooks.
@@ -102,6 +104,7 @@ Test Loss: 0.0025, Test MAE: 0.0335
 | Horizon 110 mins: | Mean=-1.51, | Std=24.26
 | Horizon 115 mins: | Mean=-1.55, | Std=25.15
 | Horizon 120 mins: | Mean=-1.56, | Std=26.11
+
 
 ### <span style="color:blue">Model D:</span>
 
