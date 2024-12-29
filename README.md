@@ -1,6 +1,6 @@
 # DiaPulse
 
-Deep Learning LSTM model to predict my future BG.
+Deep Learning LSTM models to predict my future BG.
 
 Trying to predict what my Blood Glucose level (BG) will be in 5-120mins - in 5mins intervals - based of CGM and bolus data from my pump.
 
