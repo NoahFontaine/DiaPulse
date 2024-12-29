@@ -34,6 +34,8 @@ Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization
 
 #### Residuals:
 
+| Horizon (minutes) | Mean Absolute Error (MAE) | Root Mean Square Error (RMSE) |
+|--------------------|---------------------------|--------------------------------|
 | Horizon 5 mins: | Mean=2.69, | Std=6.69
 | Horizon 10 mins: | Mean=2.23, | Std=6.14
 | Horizon 15 mins: | Mean=1.94, | Std=5.93
@@ -70,6 +72,8 @@ Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropo
 
 #### Residuals:
 
+| Horizon (minutes) | Mean Absolute Error (MAE) | Root Mean Square Error (RMSE) |
+|--------------------|---------------------------|--------------------------------|
 | Horizon 5 mins: | Mean=0.97, | Std=4.13
 | Horizon 10 mins: | Mean=1.01, | Std=3.79
 | Horizon 15 mins: | Mean=1.04, | Std=3.99
