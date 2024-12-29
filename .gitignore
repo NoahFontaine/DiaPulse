@@ -1,4 +1,6 @@
 venv/
 test.py
-*.csv
+Bolus_data.csv
+Carb_data.csv
+CGM_data.csv
 __pycache__/
