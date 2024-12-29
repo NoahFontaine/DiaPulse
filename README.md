@@ -102,3 +102,81 @@ Test Loss: 0.0025, Test MAE: 0.0335
 | Horizon 110 mins: | Mean=-1.51, | Std=24.26
 | Horizon 115 mins: | Mean=-1.55, | Std=25.15
 | Horizon 120 mins: | Mean=-1.56, | Std=26.11
+
+### <span style="color:blue">Model D:</span>
+
+Same as Model C but with more lag (6 steps ahead) on CGM data and added lag features for insulin and food activity.
+
+#### <span style="color:blue">Architecture:</span>
+
+Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+
+#### <span style="color:blue">Loss and Residuals:</span>
+
+Test Loss: 0.0024, Test MAE: 0.0339
+
+| Horizon (minutes) | Mean | Standard Deviation |
+|--------------------|---------------------------|--------------------------------|
+|Horizon 5 mins: | Mean=0.62, | Std=4.61
+|Horizon 10 mins: | Mean=0.54, | Std=4.47
+|Horizon 15 mins: | Mean=0.44, | Std=4.81
+|Horizon 20 mins: | Mean=0.33, | Std=5.56
+|Horizon 25 mins: | Mean=0.21, | Std=6.61
+|Horizon 30 mins: | Mean=0.09, | Std=7.85
+|Horizon 35 mins: | Mean=-0.04, | Std=9.19
+|Horizon 40 mins: | Mean=-0.16, | Std=10.56
+|Horizon 45 mins: | Mean=-0.28, | Std=11.93
+|Horizon 50 mins: | Mean=-0.39, | Std=13.26
+|Horizon 55 mins: | Mean=-0.49, | Std=14.50
+|Horizon 60 mins: | Mean=-0.57, | Std=15.65
+|Horizon 65 mins: | Mean=-0.64, | Std=16.69
+|Horizon 70 mins: | Mean=-0.69, | Std=17.62
+|Horizon 75 mins: | Mean=-0.70, | Std=18.43
+|Horizon 80 mins: | Mean=-0.70, | Std=19.15
+|Horizon 85 mins: | Mean=-0.67, | Std=19.80
+|Horizon 90 mins: | Mean=-0.60, | Std=20.41
+|Horizon 95 mins: | Mean=-0.52, | Std=21.00
+|Horizon 100 mins: | Mean=-0.40, | Std=21.61
+|Horizon 105 mins: | Mean=-0.26, | Std=22.27
+|Horizon 110 mins: | Mean=-0.07, | Std=22.99
+|Horizon 115 mins: | Mean=0.13, | Std=23.82
+|Horizon 120 mins: | Mean=0.39, | Std=24.74
+
+### <span style="color:blue">Model E:</span>
+
+Same as Model D but with added CGM gradient and gradient lag features.
+
+#### <span style="color:blue">Architecture:</span>
+
+Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+
+#### <span style="color:blue">Loss and Residuals:</span>
+
+Test Loss: 0.0012, Test MAE: 0.0226
+
+| Horizon (minutes) | Mean | Standard Deviation |
+|--------------------|---------------------------|--------------------------------|
+|Horizon 5 mins: | Mean=1.72, | Std=3.62
+|Horizon 10 mins: | Mean=1.61, | Std=2.96
+|Horizon 15 mins: | Mean=1.49, | Std=2.52
+|Horizon 20 mins: | Mean=1.37, | Std=2.35
+|Horizon 25 mins: | Mean=1.24, | Std=2.50
+|Horizon 30 mins: | Mean=1.10, | Std=2.97
+|Horizon 35 mins: | Mean=0.95, | Std=3.69
+|Horizon 40 mins: | Mean=0.79, | Std=4.58
+|Horizon 45 mins: | Mean=0.62, | Std=5.60
+|Horizon 50 mins: | Mean=0.44, | Std=6.69
+|Horizon 55 mins: | Mean=0.25, | Std=7.82
+|Horizon 60 mins: | Mean=0.07, | Std=8.93
+|Horizon 65 mins: | Mean=-0.11, | Std=10.01
+|Horizon 70 mins: | Mean=-0.28, | Std=11.04
+|Horizon 75 mins: | Mean=-0.42, | Std=12.00
+|Horizon 80 mins: | Mean=-0.55, | Std=12.90
+|Horizon 85 mins: | Mean=-0.64, | Std=13.74
+|Horizon 90 mins: | Mean=-0.71, | Std=14.55
+|Horizon 95 mins: | Mean=-0.75, | Std=15.34
+|Horizon 100 mins: | Mean=-0.76, | Std=16.15
+|Horizon 105 mins: | Mean=-0.73, | Std=17.00
+|Horizon 110 mins: | Mean=-0.69, | Std=17.92
+|Horizon 115 mins: | Mean=-0.61, | Std=18.94
+|Horizon 120 mins: | Mean=-0.50, | Std=20.07

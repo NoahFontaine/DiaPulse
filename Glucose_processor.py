@@ -304,8 +304,9 @@ class GlucoseDataProcessor:
         time_data = self.CGM_data["Device Time"].iloc[::-1]
         insulin_activity_data = self.insulin_activity_curve()
         food_activity_data = self.food_activity_curve()
+        CGM_gradient = self._calculate_time_gradient(data_name="Value", window=0.06)
 
-        df = pd.DataFrame({"Time": time_data, "CGM": filtered_CGM_data, "Insulin Activity": insulin_activity_data, "Food Activity": food_activity_data})
+        df = pd.DataFrame({"Time": time_data, "CGM": filtered_CGM_data, "CGM Gradient": CGM_gradient, "Insulin Activity": insulin_activity_data, "Food Activity": food_activity_data})
 
         return df
 
