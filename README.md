@@ -1,1 +1,96 @@
 # DiaPulse
+
+Trying to predict what my Blood Glucose level (BG) will be in 5-120mins - in 5mins intervals - based of CGM and bolus data from my pump.
+
+View training and results of the models using the training_{#}.ipynb notebooks.
+
+## Models
+
+### Model A
+
+Simple Sequential model with 1 LSTM hidden layer.
+
+Features are:
+ - Time of day (both sine and cosine components).
+ - Current CGM BG data.
+ - Current "Insulin Activity" - pseudo $f(active insulin, insulin characteristics, t)$ to try and model how insulin gets absorbed into the body.
+ - Current "Food Activity" - effectively the same type of function as Insulin Activity, but with different parameters to try and model how food gets digested.
+
+#### Architecture:
+
+Input (5) -> LSTM (64) -> Output (24)
+
+
+### Model B
+
+Added new lagging feature and a second LSTM hidden layer, with 2 dropout layers too.
+
+Extra features are:
+ - Time of day 5, 10, 15, 20 mins before (both sine and cosine components).
+
+#### Architecture:
+
+Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization -> Dropout -> Output (24)
+
+#### Residuals:
+
+| Horizon 5 mins: | Mean=2.69, | Std=6.69
+| Horizon 10 mins: | Mean=2.23, | Std=6.14
+| Horizon 15 mins: | Mean=1.94, | Std=5.93
+| Horizon 20 mins: | Mean=1.35, | Std=6.11
+| Horizon 25 mins: | Mean=1.07, | Std=6.77
+| Horizon 30 mins: | Mean=0.79, | Std=7.78
+| Horizon 35 mins: | Mean=0.49, | Std=9.10
+| Horizon 40 mins: | Mean=0.26, | Std=10.60
+| Horizon 45 mins: | Mean=0.21, | Std=12.23
+| Horizon 50 mins: | Mean=0.27, | Std=13.92
+| Horizon 55 mins: | Mean=0.35, | Std=15.64
+| Horizon 60 mins: | Mean=0.39, | Std=17.33
+| Horizon 65 mins: | Mean=0.58, | Std=18.98
+| Horizon 70 mins: | Mean=0.78, | Std=20.57
+| Horizon 75 mins: | Mean=0.94, | Std=22.08
+| Horizon 80 mins: | Mean=1.05, | Std=23.50
+| Horizon 85 mins: | Mean=1.27, | Std=24.82
+| Horizon 90 mins: | Mean=1.69, | Std=26.06
+| Horizon 95 mins: | Mean=1.95, | Std=27.20
+| Horizon 100 mins: | Mean=2.13, | Std=28.28
+| Horizon 105 mins: | Mean=2.63, | Std=29.30
+| Horizon 110 mins: | Mean=2.89, | Std=30.27
+| Horizon 115 mins: | Mean=3.13, | Std=31.22
+| Horizon 120 mins: | Mean=3.54, | Std=32.16
+
+
+### Model C
+
+Same as Model B but with an attention layer after the first LSTM and Layer instead of Batch Normalization. Have tried adding FFT features without success. Will try to add day of week/weekend features and increase the time lag features to 30mins before.
+
+#### Architecture:
+
+Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+
+#### Residuals:
+
+| Horizon 5 mins: | Mean=0.97, | Std=4.13
+| Horizon 10 mins: | Mean=1.01, | Std=3.79
+| Horizon 15 mins: | Mean=1.04, | Std=3.99
+| Horizon 20 mins: | Mean=1.04, | Std=4.71
+| Horizon 25 mins: | Mean=1.01, | Std=5.79
+| Horizon 30 mins: | Mean=0.94, | Std=7.09
+| Horizon 35 mins: | Mean=0.85, | Std=8.51
+| Horizon 40 mins: | Mean=0.72, | Std=9.98
+| Horizon 45 mins: | Mean=0.57, | Std=11.45
+| Horizon 50 mins: | Mean=0.40, | Std=12.88
+| Horizon 55 mins: | Mean=0.22, | Std=14.25
+| Horizon 60 mins: | Mean=0.02, | Std=15.52
+| Horizon 65 mins: | Mean=-0.18, | Std=16.69
+| Horizon 70 mins: | Mean=-0.38, | Std=17.75
+| Horizon 75 mins: | Mean=-0.57, | Std=18.71
+| Horizon 80 mins: | Mean=-0.76, | Std=19.59
+| Horizon 85 mins: | Mean=-0.93, | Std=20.39
+| Horizon 90 mins: | Mean=-1.09, | Std=21.15
+| Horizon 95 mins: | Mean=-1.23, | Std=21.90
+| Horizon 100 mins: | Mean=-1.35, | Std=22.65
+| Horizon 105 mins: | Mean=-1.44, | Std=23.43
+| Horizon 110 mins: | Mean=-1.51, | Std=24.26
+| Horizon 115 mins: | Mean=-1.55, | Std=25.15
+| Horizon 120 mins: | Mean=-1.56, | Std=26.11
