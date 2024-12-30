@@ -38,6 +38,8 @@ Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization
 
 Test Loss: 0.0037, Test MAE: 0.0420
 
+![RMSE Model B](RMSE_vs_horizons\Model_B.png)
+
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
 | Horizon 5 mins: | Mean=2.69, | Std=6.69
@@ -69,14 +71,17 @@ Test Loss: 0.0037, Test MAE: 0.0420
 ### <span style="color:blue">Model C:</span>
 
 Same as Model B but with an attention layer after the first LSTM and Layer instead of Batch Normalization. Have tried adding FFT features without success. Will try to add day of week/weekend features and increase the time lag features to 30mins before.
+NOTE: Attention layer here does not do anything, since the timestamp is only 1.
 
 #### <span style="color:blue">Architecture:</span>
 
-Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
 
 #### <span style="color:blue">Loss and Residuals:</span>
 
 Test Loss: 0.0025, Test MAE: 0.0335
+
+![RMSE Model C](RMSE_vs_horizons\Model_C.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
@@ -109,45 +114,90 @@ Test Loss: 0.0025, Test MAE: 0.0335
 ### <span style="color:blue">Model D:</span>
 
 Same as Model C but with more lag (6 steps ahead) on CGM data and added lag features for insulin and food activity.
+NOTE: Attention layer here does not do anything, since the timestamp is only 1.
 
 #### <span style="color:blue">Architecture:</span>
 
-Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
 
 #### <span style="color:blue">Loss and Residuals:</span>
 
 Test Loss: 0.0024, Test MAE: 0.0339
 
+![RMSE Model D](RMSE_vs_horizons\Model_D.png)
+
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
-|Horizon 5 mins: | Mean=0.62, | Std=4.61
-|Horizon 10 mins: | Mean=0.54, | Std=4.47
-|Horizon 15 mins: | Mean=0.44, | Std=4.81
-|Horizon 20 mins: | Mean=0.33, | Std=5.56
-|Horizon 25 mins: | Mean=0.21, | Std=6.61
-|Horizon 30 mins: | Mean=0.09, | Std=7.85
-|Horizon 35 mins: | Mean=-0.04, | Std=9.19
-|Horizon 40 mins: | Mean=-0.16, | Std=10.56
-|Horizon 45 mins: | Mean=-0.28, | Std=11.93
-|Horizon 50 mins: | Mean=-0.39, | Std=13.26
-|Horizon 55 mins: | Mean=-0.49, | Std=14.50
-|Horizon 60 mins: | Mean=-0.57, | Std=15.65
-|Horizon 65 mins: | Mean=-0.64, | Std=16.69
-|Horizon 70 mins: | Mean=-0.69, | Std=17.62
-|Horizon 75 mins: | Mean=-0.70, | Std=18.43
-|Horizon 80 mins: | Mean=-0.70, | Std=19.15
-|Horizon 85 mins: | Mean=-0.67, | Std=19.80
-|Horizon 90 mins: | Mean=-0.60, | Std=20.41
-|Horizon 95 mins: | Mean=-0.52, | Std=21.00
-|Horizon 100 mins: | Mean=-0.40, | Std=21.61
-|Horizon 105 mins: | Mean=-0.26, | Std=22.27
-|Horizon 110 mins: | Mean=-0.07, | Std=22.99
-|Horizon 115 mins: | Mean=0.13, | Std=23.82
-|Horizon 120 mins: | Mean=0.39, | Std=24.74
+| Horizon 5 mins: | Mean=0.62, | Std=4.61
+| Horizon 10 mins: | Mean=0.54, | Std=4.47
+| Horizon 15 mins: | Mean=0.44, | Std=4.81
+| Horizon 20 mins: | Mean=0.33, | Std=5.56
+| Horizon 25 mins: | Mean=0.21, | Std=6.61
+| Horizon 30 mins: | Mean=0.09, | Std=7.85
+| Horizon 35 mins: | Mean=-0.04, | Std=9.19
+| Horizon 40 mins: | Mean=-0.16, | Std=10.56
+| Horizon 45 mins: | Mean=-0.28, | Std=11.93
+| Horizon 50 mins: | Mean=-0.39, | Std=13.26
+| Horizon 55 mins: | Mean=-0.49, | Std=14.50
+| Horizon 60 mins: | Mean=-0.57, | Std=15.65
+| Horizon 65 mins: | Mean=-0.64, | Std=16.69
+| Horizon 70 mins: | Mean=-0.69, | Std=17.62
+| Horizon 75 mins: | Mean=-0.70, | Std=18.43
+| Horizon 80 mins: | Mean=-0.70, | Std=19.15
+| Horizon 85 mins: | Mean=-0.67, | Std=19.80
+| Horizon 90 mins: | Mean=-0.60, | Std=20.41
+| Horizon 95 mins: | Mean=-0.52, | Std=21.00
+| Horizon 100 mins: | Mean=-0.40, | Std=21.61
+| Horizon 105 mins: | Mean=-0.26, | Std=22.27
+| Horizon 110 mins: | Mean=-0.07, | Std=22.99
+| Horizon 115 mins: | Mean=0.13, | Std=23.82
+| Horizon 120 mins: | Mean=0.39, | Std=24.74
 
 ### <span style="color:blue">Model E:</span>
 
 Same as Model D but with added CGM gradient and gradient lag features.
+NOTE: Attention layer here does not do anything, since the timestamp is only 1.
+
+#### <span style="color:blue">Architecture:</span>
+
+Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalization -> Dropout -> Output (24)
+
+#### <span style="color:blue">Loss and Residuals:</span>
+
+Test Loss: 0.0012, Test MAE: 0.0226
+
+![RMSE Model E](RMSE_vs_horizons\Model_E.png)
+
+| Horizon (minutes) | Mean | Standard Deviation |
+|--------------------|---------------------------|--------------------------------|
+| Horizon 5 mins: | Mean=1.72, | Std=3.62
+| Horizon 10 mins: | Mean=1.61, | Std=2.96
+| Horizon 15 mins: | Mean=1.49, | Std=2.52
+| Horizon 20 mins: | Mean=1.37, | Std=2.35
+| Horizon 25 mins: | Mean=1.24, | Std=2.50
+| Horizon 30 mins: | Mean=1.10, | Std=2.97
+| Horizon 35 mins: | Mean=0.95, | Std=3.69
+| Horizon 40 mins: | Mean=0.79, | Std=4.58
+| Horizon 45 mins: | Mean=0.62, | Std=5.60
+| Horizon 50 mins: | Mean=0.44, | Std=6.69
+| Horizon 55 mins: | Mean=0.25, | Std=7.82
+| Horizon 60 mins: | Mean=0.07, | Std=8.93
+| Horizon 65 mins: | Mean=-0.11, | Std=10.01
+| Horizon 70 mins: | Mean=-0.28, | Std=11.04
+| Horizon 75 mins: | Mean=-0.42, | Std=12.00
+| Horizon 80 mins: | Mean=-0.55, | Std=12.90
+| Horizon 85 mins: | Mean=-0.64, | Std=13.74
+| Horizon 90 mins: | Mean=-0.71, | Std=14.55
+| Horizon 95 mins: | Mean=-0.75, | Std=15.34
+| Horizon 100 mins: | Mean=-0.76, | Std=16.15
+| Horizon 105 mins: | Mean=-0.73, | Std=17.00
+| Horizon 110 mins: | Mean=-0.69, | Std=17.92
+| Horizon 115 mins: | Mean=-0.61, | Std=18.94
+| Horizon 120 mins: | Mean=-0.50, | Std=20.07
+
+### <span style="color:blue">Model F:</span>
+
+Actually making use of the attnetion layer! Modified the input data to have a timestep of 10. No changes to number of features etc.
 
 #### <span style="color:blue">Architecture:</span>
 
@@ -155,31 +205,33 @@ Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropo
 
 #### <span style="color:blue">Loss and Residuals:</span>
 
-Test Loss: 0.0012, Test MAE: 0.0226
+Test Loss: 0.0005, Test MAE: 0.0163
+
+![RMSE Model F](RMSE_vs_horizons\Model_F.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
-|Horizon 5 mins: | Mean=1.72, | Std=3.62
-|Horizon 10 mins: | Mean=1.61, | Std=2.96
-|Horizon 15 mins: | Mean=1.49, | Std=2.52
-|Horizon 20 mins: | Mean=1.37, | Std=2.35
-|Horizon 25 mins: | Mean=1.24, | Std=2.50
-|Horizon 30 mins: | Mean=1.10, | Std=2.97
-|Horizon 35 mins: | Mean=0.95, | Std=3.69
-|Horizon 40 mins: | Mean=0.79, | Std=4.58
-|Horizon 45 mins: | Mean=0.62, | Std=5.60
-|Horizon 50 mins: | Mean=0.44, | Std=6.69
-|Horizon 55 mins: | Mean=0.25, | Std=7.82
-|Horizon 60 mins: | Mean=0.07, | Std=8.93
-|Horizon 65 mins: | Mean=-0.11, | Std=10.01
-|Horizon 70 mins: | Mean=-0.28, | Std=11.04
-|Horizon 75 mins: | Mean=-0.42, | Std=12.00
-|Horizon 80 mins: | Mean=-0.55, | Std=12.90
-|Horizon 85 mins: | Mean=-0.64, | Std=13.74
-|Horizon 90 mins: | Mean=-0.71, | Std=14.55
-|Horizon 95 mins: | Mean=-0.75, | Std=15.34
-|Horizon 100 mins: | Mean=-0.76, | Std=16.15
-|Horizon 105 mins: | Mean=-0.73, | Std=17.00
-|Horizon 110 mins: | Mean=-0.69, | Std=17.92
-|Horizon 115 mins: | Mean=-0.61, | Std=18.94
-|Horizon 120 mins: | Mean=-0.50, | Std=20.07
+| Horizon 5 mins: | Mean=0.52, | Std=5.81
+| Horizon 10 mins: | Mean=0.58, | Std=4.90
+| Horizon 15 mins: | Mean=0.62, | Std=4.34
+| Horizon 20 mins: | Mean=0.64, | Std=4.15
+| Horizon 25 mins: | Mean=0.62, | Std=4.29
+| Horizon 30 mins: | Mean=0.57, | Std=4.64
+| Horizon 35 mins: | Mean=0.48, | Std=5.09
+| Horizon 40 mins: | Mean=0.37, | Std=5.56
+| Horizon 45 mins: | Mean=0.23, | Std=6.00
+| Horizon 50 mins: | Mean=0.07, | Std=6.38
+| Horizon 55 mins: | Mean=-0.09, | Std=6.70
+| Horizon 60 mins: | Mean=-0.26, | Std=6.95
+| Horizon 65 mins: | Mean=-0.42, | Std=7.15
+| Horizon 70 mins: | Mean=-0.58, | Std=7.29
+| Horizon 75 mins: | Mean=-0.73, | Std=7.41
+| Horizon 80 mins: | Mean=-0.88, | Std=7.52
+| Horizon 85 mins: | Mean=-1.02, | Std=7.66
+| Horizon 90 mins: | Mean=-1.15, | Std=7.85
+| Horizon 95 mins: | Mean=-1.29, | Std=8.14
+| Horizon 100 mins: | Mean=-1.42, | Std=8.58
+| Horizon 105 mins: | Mean=-1.55, | Std=9.18
+| Horizon 110 mins: | Mean=-1.68, | Std=9.99
+| Horizon 115 mins: | Mean=-1.81, | Std=11.00
+| Horizon 120 mins: | Mean=-1.95, | Std=12.22
