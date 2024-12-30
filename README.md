@@ -38,7 +38,7 @@ Input (9) -> Dropout -> LSTM (64) -> Dropout -> LSTM (32) -> Batch Normalization
 
 Test Loss: 0.0037, Test MAE: 0.0420
 
-![RMSE Model B](RMSE_vs_horizons\Model_B.png)
+![RMSE Model B](RMSE_vs_horizons/Model_B.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
@@ -81,7 +81,7 @@ Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalizati
 
 Test Loss: 0.0025, Test MAE: 0.0335
 
-![RMSE Model C](RMSE_vs_horizons\Model_C.png)
+![RMSE Model C](RMSE_vs_horizons/Model_C.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
@@ -124,7 +124,7 @@ Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalizati
 
 Test Loss: 0.0024, Test MAE: 0.0339
 
-![RMSE Model D](RMSE_vs_horizons\Model_D.png)
+![RMSE Model D](RMSE_vs_horizons/Model_D.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
@@ -166,7 +166,7 @@ Input (9) -> LSTM (64) -> Attention [Inactive] -> LSTM (32) -> Layer Normalizati
 
 Test Loss: 0.0012, Test MAE: 0.0226
 
-![RMSE Model E](RMSE_vs_horizons\Model_E.png)
+![RMSE Model E](RMSE_vs_horizons/Model_E.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
@@ -207,7 +207,7 @@ Input (9) -> LSTM (64) -> Attention -> LSTM (32) -> Layer Normalization -> Dropo
 
 Test Loss: 0.0005, Test MAE: 0.0163
 
-![RMSE Model F](RMSE_vs_horizons\Model_F.png)
+![RMSE Model F](RMSE_vs_horizons/Model_F.png)
 
 | Horizon (minutes) | Mean | Standard Deviation |
 |--------------------|---------------------------|--------------------------------|
