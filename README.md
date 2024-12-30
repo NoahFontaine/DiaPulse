@@ -8,6 +8,8 @@ View training and results of the models using the training_{#}.ipynb notebooks.
 
 ## Models
 
+![RMSE Model C](RMSE_vs_horizons/Compare.png)
+
 ### <span style="color:blue">Model A:</span>
 
 Simple Sequential model with 1 LSTM hidden layer.
@@ -197,7 +199,7 @@ Test Loss: 0.0012, Test MAE: 0.0226
 
 ### <span style="color:blue">Model F:</span>
 
-Actually making use of the attnetion layer! Modified the input data to have a timestep of 10. No changes to number of features etc.
+Actually making use of the attention layer! Modified the input data to have a timestep of 10. No changes to number of features etc.
 
 #### <span style="color:blue">Architecture:</span>
 
