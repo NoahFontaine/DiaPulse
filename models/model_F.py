@@ -85,7 +85,6 @@ class BloodGlucosePredictorF:
 
         return X_scaled, y_scaled
 
-
     def build_model(self, input_shape):
         """
         Build the LSTM model with an attention layer.
